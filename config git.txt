@@ -26,3 +26,6 @@ git commit -m "o que foi feito"
 git push origin master
 
 
+git pull origin master
+
+
