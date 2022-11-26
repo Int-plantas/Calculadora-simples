@@ -1,10 +1,11 @@
-// Importação automática material flutter
 import 'package:flutter/material.dart';                 
 
 
 // Stateful = pode ser mudado
 // A classe Calculadora possui estado e poderá ser mudada
-class Calculadora extends StatefulWidget {              
+class Calculadora extends StatefulWidget {
+  const Calculadora({super.key});
+              
   @override
   State createState() => CalculadoraState();
 }
@@ -33,8 +34,13 @@ class CalculadoraState extends State<Calculadora> {
 
             // Texto que mostra o resultado do calculo
             Text(
-              "Resultado: $resultado",
-              style: TextStyle(
+              // O cifrão serve para indicar que é uma variável, e não texto
+              // As chaves servem para fazer interpolação
+              // Interpolação é para fazer uma modificação, nesse caso da variável
+              // Convertemos a var para string e fixamos em 1 casa após a vírgula
+              // Mascaras e formatacoes devem sempre ser realizadas onde se exibe
+              "Resultado: ${resultado.toStringAsFixed(1)}",
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.deepPurple),
@@ -43,9 +49,9 @@ class CalculadoraState extends State<Calculadora> {
 
 
             // Campo de texto (input do valor 1)
-            new TextField(
+            TextField(
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(hintText: "Informe o valor 1"),
+              decoration: const InputDecoration(hintText: "Informe o valor 1"),
               controller: t1,
               ),
 
@@ -55,43 +61,59 @@ class CalculadoraState extends State<Calculadora> {
             // Campo de texto (input do valor 2)
             TextField(
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(hintText: "Informe o valor 2"),
+              decoration: const InputDecoration(hintText: "Informe o valor 2"),
               controller: t2),
 
 
 
             //Espacamento dos inputs 
-            Padding(
-              padding: const EdgeInsets.only(top: 20)),
+            const Padding(
+              padding: EdgeInsets.only(top: 20)),
 
 
 
-            //Nova linha (row)
-            new Row(
+            //Nova linha (row) botao somar
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                new MaterialButton(
-                  child: new Text("+"),
+
+                //Botao somar
+                MaterialButton(
                   color: Colors.blueAccent,
-                  onPressed: somar),
+                  onPressed: somar,
+                  child: const Text("+")
+                  ),
+
+                //Botao subtrair
+                MaterialButton(
+                  color: Colors.green,
+                  onPressed: subtrair,
+                  child: const Text("-",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.black
+                  ))
+                ),
               ],
             ),
 
-
-
-            //Espacamento depois do botao
-            new Padding(
-              padding: const EdgeInsets.only(top: 20),
+            //Espacamento depois do botao somar
+            const Padding(
+              padding: EdgeInsets.only(top: 20),
             ),
 
-            //Botao limpar 
-            new Row(
+
+            //Nova linha para botao limpar 
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                new MaterialButton(
-                  child: new Text("Limpar"),
+
+                //Botao limpar
+                MaterialButton(
                   color: Colors.grey,
-                  onPressed: limpar),
+                  onPressed: limpar,
+                  child: const Text("Limpar")),
               ],
             ),
           ],
@@ -101,29 +123,45 @@ class CalculadoraState extends State<Calculadora> {
   }
 
   // Atributos 
-  var num1;
-  var num2;
-  var resultado = 0;
 
+  num num1 = 0;
+  num num2 = 0;
+  num resultado = 0;
+
+
+  // Variável de texto que irá receber os valores dos INPUTS em forma de texto, são inicializados em branco: ""
   TextEditingController t1 = TextEditingController(text: "");
   TextEditingController t2 = TextEditingController(text: "");
 
-  //Metodos
+
+
+  // Metodos
   void somar() {
+    // Invocamos o método setstate sempre que formos alterar o valor de alguma variável
     setState(() {
-      num1 = int.parse(t1.text);
-      num2 = int.parse(t2.text);
+      // Transformamos o texto de controle t1 e t2 para inteiros
+      num1 = num.parse(t1.text);
+      num2 = num.parse(t2.text);
       resultado = num1 + num2;
     });
   }
 
-    void limpar() {
-      setState(() {
-        t1.text = "";
-        t2.text = "";
-        
-      });
-    }
+  void limpar() {
+     setState(() {
+       t1.text = "";
+       t2.text = "";
+       
+     });
+   }
+
+  void subtrair(){
+    setState(() {
+      num1 = num.parse(t1.text);
+      num2 = num.parse(t2.text);
+      resultado = num1 - num2;
+    });
+  }
+
 
 } // fecha CalculadoraState
 
