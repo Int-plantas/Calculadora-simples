@@ -1,0 +1,31 @@
+git init
+
+git add "nome_Arquivo"
+
+git commit -m "criando alteração ...."
+
+git remote add origin <http.......com>
+
+git config --global user.name "kalebe rodrigues"
+
+git config --global user.email "kaleberodrigues52@gmail.com"
+
+git push origin master
+
+
+
+
+
+
+
+
+git add * 
+
+git commit -m "o que foi feito"
+
+git push origin master
+
+
+git pull origin master
+
+
